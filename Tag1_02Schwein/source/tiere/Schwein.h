@@ -18,8 +18,8 @@ class Schwein {
     }
 public:
 
-
-    explicit Schwein(const std::string &name="Nobody") :  gewicht(10) {
+    inline static int DEFAULT_WEIGHT{10};
+    explicit Schwein(const std::string &name = "Nobody") :  gewicht{10}{
         setName(name);
     }
 
@@ -28,7 +28,7 @@ public:
     }
 
     void setName(const std::string &name) {
-        if(name == "Elsa") throw std::invalid_argument("Falscher Name");
+        if(name == "Elsa") throw std::invalid_argument("Name verstoesst gegen die Schweinewuerde!");
         Schwein::name = name;
     }
 
@@ -40,8 +40,11 @@ public:
         setGewicht(getGewicht() + 1);
     }
 
+    friend std::ostream &operator<<(std::ostream &os, const Schwein &schwein) {
+        os << "name: " << schwein.name << " gewicht: " << schwein.gewicht;
+        return os;
+    }
 
-    // ---------------------- Generated Code ---------------------------------------
     bool operator==(const Schwein &rhs) const {
         return name == rhs.name &&
                gewicht == rhs.gewicht;
@@ -49,11 +52,6 @@ public:
 
     bool operator!=(const Schwein &rhs) const {
         return !(rhs == *this);
-    }
-
-    friend std::ostream &operator<<(std::ostream &os, const Schwein &schwein) {
-        os << "name: " << schwein.name << " gewicht: " << schwein.gewicht;
-        return os;
     }
 
 };
