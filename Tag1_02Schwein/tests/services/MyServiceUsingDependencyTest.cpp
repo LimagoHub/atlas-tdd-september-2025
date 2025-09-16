@@ -32,7 +32,7 @@ TEST_F(MyServiceUsingDependencyTest, MockdemoFooBarFunc) {
  */
     EXPECT_CALL(dependencyMock, foobar("Hallo Welt")).Times(AtLeast(1))
     .WillOnce(Return(3L))
-    .WillOnce(Return(5));
+    .WillOnce(Return(5)).WillOnce(Throw(std::exception{"Upps"}));
 
     EXPECT_CALL(dependencyMock, foobar("Hello Welt")).Times(AtLeast(1))
             .WillOnce(Return(2L))
