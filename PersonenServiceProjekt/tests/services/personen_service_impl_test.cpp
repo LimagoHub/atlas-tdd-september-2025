@@ -5,6 +5,17 @@
 #include "personen_service_impl_test.h"
 #include "../../source/services/personen_service_exception.h"
 
+
+TEST_P(personen_service_impl_parameter_test, speichern__throws_personen_service_exception) {
+    try {
+
+        objectUnderTest.speichern(invalidPerson);
+        FAIL() << "Exception erwartet";
+    } catch (personen_service_exception &ex) {
+        EXPECT_STREQ(ex.what(), expectedErrorMessage.c_str());
+    }
+}
+
 TEST_F(personen_service_impl_test, speichern__VornameZuKurz__throws_personen_service_exception) {
     try {
         // Arrange
@@ -24,7 +35,7 @@ TEST_F(personen_service_impl_test, speichern__VornameZuKurz__throws_personen_ser
 TEST_F(personen_service_impl_test, speichern__NachnameZuKurz__throws_personen_service_exception) {
     try {
         // Arrange
-        person invalidPerson{"john", "D"};
+        person invalidPerson{"john", "d"};
 
         // Action
         objectUnderTest.speichern(invalidPerson);
@@ -102,3 +113,14 @@ TEST_F(personen_service_impl_test, speichern__happy_day__person_passed_to_repo_o
     //EXPECT_THAT(captured_person.getId(), Not(IsEmpty()));
 
 }
+
+INSTANTIATE_TEST_SUITE_P(
+        speichern_invalid_names, // Name der Testa frei waehlbar
+        personen_service_impl_parameter_test, // Verbindung zur Testklasse
+        Values(
+                std::make_pair(person{"","Doe"},"Vorname zu kurz!" ),
+                std::make_pair(person{"J","Doe"},"Vorname zu kurz!" ),
+                std::make_pair(person{"John",""},"Nachname zu kurz!" ),
+                std::make_pair(person{"John","D"},"Nachname zu kurz!" )
+        )
+);
