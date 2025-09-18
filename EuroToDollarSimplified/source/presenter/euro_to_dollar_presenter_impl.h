@@ -41,8 +41,12 @@ public:
      */
 	void populate_items() const override
 	{
-        
-	}
+        view_->set_euro("0");
+        view_->set_dollar("0");
+        view_->set_rechnen_enabled(true);
+
+
+    }
 
     //Euro string aus view lesen
     // eurowert wandeln -> double (Im fehlerfall -> Fehlermeldung im Dollarfeld)
@@ -63,7 +67,7 @@ public:
     // maske zerstoeren (1.)
     void beenden() const override
 	{
-
+        view_->dispose();
 	}
 
     /*
